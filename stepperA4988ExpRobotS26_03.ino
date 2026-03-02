@@ -1,14 +1,33 @@
 
 // Stepper Configuration
+// Motor: NEMA 17 Stepper Motor (200 steps/revolution at full stepping)
+//   https://www.circuitspecialists.com/nema_17_stepper_motor_42bygh4807
+// Driver: A4988 Stepper Motor Driver
+//   https://www.amazon.com/dp/B07BND65C8
 
 #include <AccelStepper.h>
 AccelStepper myStepper(1, 15, 14);  // 1 sets the MotorInterfaceType to DRIVER; pin 15 = step; pin 14 = direction
 //AccelStepper myStepper(4, 0, 2, 1, 3); // define motor pins (0, 2, 1, 3) and interface mode (4)
 
+const int STEPS_PER_REV_FULL = 200;  // NEMA 17 motor: 200 steps/revolution at full stepping
+const int MICROSTEP_MODE = 8;        // Microstepping divisor: 1, 2, 4, 8, or 16
+                                      // Total steps/rev = STEPS_PER_REV_FULL * MICROSTEP_MODE
+
 const int ms1Pin = 18;          // define pins for stepping mode
 const int ms2Pin = 17;          // stepping modes change the step resolution of the motor
 const int ms3Pin = 16;          // higher resolution comes at the expense of higher speeds and torque
 const int enablePin = 19;
+
+// Microstepping pin settings by MICROSTEP_MODE (MS1, MS2, MS3):
+// 1  (full step):       LOW,  LOW,  LOW
+// 2  (half step):       HIGH, LOW,  LOW
+// 4  (quarter step):    LOW,  HIGH, LOW
+// 8  (eighth step):     HIGH, HIGH, LOW
+// 16 (sixteenth step):  HIGH, HIGH, HIGH
+// Current MICROSTEP_MODE = 8 (eighth step): HIGH, HIGH, LOW
+const int MS1_MODE = HIGH;
+const int MS2_MODE = HIGH;
+const int MS3_MODE = LOW;
 
 int steps = 0;
 int currentSteps = 0;
@@ -40,9 +59,9 @@ void setup() {
   pinMode(ms3Pin, OUTPUT);
   pinMode(enablePin, OUTPUT);
 
-  digitalWrite(ms1Pin, HIGH);     // full step (LOW, LOW, LOW)
-  digitalWrite(ms2Pin, HIGH);      // runs smoother in half step mode (HIGH, LOW, LOW) but might need to increase current for required torque
-  digitalWrite(ms3Pin, LOW);
+  digitalWrite(ms1Pin, MS1_MODE);
+  digitalWrite(ms2Pin, MS2_MODE);
+  digitalWrite(ms3Pin, MS3_MODE);
   digitalWrite(enablePin, LOW);
 }
 
@@ -85,7 +104,8 @@ void angleInputNB() {  //non-blocking version of angle input
     int angle = dataNumber;
     Serial.print("angle = ");
     Serial.println(angle);
-    angle = map(angle, 0, 360, 0, 2038);  // Set the output range to match the steps/revolution of the motor.
+    int stepsPerRevolution = STEPS_PER_REV_FULL * MICROSTEP_MODE;
+    angle = map(angle, 0, 360, 0, stepsPerRevolution);
     myStepper.moveTo(angle);
     newData = false;
   }
