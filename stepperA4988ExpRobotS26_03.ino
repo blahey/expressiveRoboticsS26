@@ -49,8 +49,8 @@ void setup() {
 void loop() {
   //randStepper();
   // variableStepper();
-  // angleInputNB();
-  stepsInputNB();
+  angleInputNB();
+  // stepsInputNB();
 }
 
 void randStepper()
@@ -79,15 +79,15 @@ void randStepper()
 
 
 void angleInputNB() {  //non-blocking version of angle input
-  steps = recvWithEndMarker(); // I'm reusing the steps, currentSteps and previousSteps variables rather than duplicating their function with "angle" versions. 
-  currentSteps = steps;
-  if (currentSteps != previousSteps) {
-    int angle = steps;
+  recvWithEndMarker();
+  
+  if (newData) {
+    int angle = dataNumber;
     Serial.print("angle = ");
     Serial.println(angle);
     angle = map(angle, 0, 360, 0, 2038);  // Set the output range to match the steps/revolution of the motor.
     myStepper.moveTo(angle);
-    previousSteps = currentSteps;
+    newData = false;
   }
   myStepper.run();
 }
