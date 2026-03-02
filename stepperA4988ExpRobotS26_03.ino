@@ -1,11 +1,22 @@
 
 // Stepper Configuration
 // Motor: NEMA 17 Stepper Motor (200 steps/revolution at full stepping)
+// 4.2 kg-cm 4 Wire NEMA 17 Stepper Motor by CW-MOTOR. SKU: 42BYGH4807
 //   https://www.circuitspecialists.com/nema_17_stepper_motor_42bygh4807
 // Driver: A4988 Stepper Motor Driver
 //   https://www.amazon.com/dp/B07BND65C8
 
-#include <AccelStepper.h>
+// https://lastminuteengineers.com/a4988-stepper-motor-driver-arduino-tutorial/
+
+// https://www.pololu.com/product/1182 
+
+// https://www.airspayce.com/mikem/arduino/AccelStepper/index.html
+
+// https://youtu.be/TWMai3oirnM?si=IP0x5L8xtVg3shti (How Stepper Motors Work)
+
+
+
+#include <AccelStepper.h> // Install this library if you haven't already done so!
 AccelStepper myStepper(1, 15, 14);  // 1 sets the MotorInterfaceType to DRIVER; pin 15 = step; pin 14 = direction
 //AccelStepper myStepper(4, 0, 2, 1, 3); // define motor pins (0, 2, 1, 3) and interface mode (4)
 
