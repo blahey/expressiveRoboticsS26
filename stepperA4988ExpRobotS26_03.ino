@@ -14,6 +14,8 @@
 
 // https://youtu.be/TWMai3oirnM?si=IP0x5L8xtVg3shti (How Stepper Motors Work)
 
+// https://youtu.be/sER5GNjcQ70?si=cHnAq-LED0kjjmdD (Shows complete Arduino Uno implementation of circuit)
+
 
 
 #include <AccelStepper.h> // Install this library if you haven't already done so!
