@@ -79,9 +79,9 @@ void setup() {
 }
 
 void loop() {
-  //randStepper();
+  randStepper();
   // variableStepper();
-  angleInputNB();
+  // angleInputNB();
   // stepsInputNB();
 }
 
