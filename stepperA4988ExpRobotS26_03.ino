@@ -63,7 +63,7 @@ int dataNumber = 0;  // new for this version
 
 
 void setup() {
-  Serial.begin(9600);  myStepper.setMaxSpeed(4000); // sets the maximum steps per second, which determines how fast the motor will turn
+  Serial.begin(9600);  myStepper.setMaxSpeed(5000); // sets the maximum steps per second, which determines how fast the motor will turn
   myStepper.setAcceleration(500); // sets the acceleration rate in steps per second
   myStepper.setSpeed(100);
   
@@ -79,9 +79,9 @@ void setup() {
 }
 
 void loop() {
-  randStepper();
+  // randStepper();
   // variableStepper();
-  // angleInputNB();
+   angleInputNB();
   // stepsInputNB();
 }
 
